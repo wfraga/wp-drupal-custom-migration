@@ -1,0 +1,24 @@
+id: wp_author_picture
+label: Author picture
+status: true
+migration_group: wp_migration
+migration_tags:
+  - Wordpress
+
+source:
+  plugin: wordpress_authors_pictures
+  constants:
+    file_destination: 'public://author_blog_pictures/'
+
+process:
+  bundle:
+    plugin: default_value
+    default_value: image
+  field_media_image:
+    plugin: image_import
+    source: picture_url
+    destination: 'constants/file_destination'
+
+destination:
+  plugin: 'entity:media'
+dependencies: {}

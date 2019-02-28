@@ -1,0 +1,25 @@
+id: wp_hero_image
+label: Hero image
+status: true
+migration_group: wp_migration
+migration_tags:
+  - Wordpress
+
+source:
+  plugin: wordpress_hero_images
+  post_type: post
+  constants:
+    file_destination: 'public://hero_image/'
+
+process:
+  bundle:
+    plugin: default_value
+    default_value: hero_image
+  field_media_image:
+    plugin: image_import
+    source: content_img_path
+    destination: 'constants/file_destination'
+
+destination:
+  plugin: 'entity:media'
+dependencies: {}

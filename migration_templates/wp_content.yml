@@ -1,0 +1,65 @@
+id: wp_content
+label: 'Content'
+migration_group: wp_migration
+migration_tags:
+  - Wordpress
+source:
+  plugin: wordpress_content
+  # Wordpress post type
+  post_type: post
+  # This is WP table prefix  (custom variable)
+  table_prefix: iv
+process:
+  type:
+    plugin: default_value
+    default_value: blog_article
+  title: new_title
+  'field_blog_article_body/format':
+    plugin: default_value
+    default_value: full_html
+  'field_blog_article_body/value': new_content
+  'field_blog_article_wp_old_url/value': old_url
+  field_blog_article_tags:
+    plugin: entity_generate
+    source: tags_names
+  field_blog_article_category:
+    plugin: entity_generate
+    source: categ_names
+  field_blog_article_author:
+    plugin: migration_lookup
+    migration: wp_authors
+    source: post_author
+  field_blog_article_hero_banner/target_id:
+    -
+      plugin: migration
+      migration: wp_hero_banner
+      no_stub: true
+      source: ID
+    -
+      plugin: extract
+      index:
+        - 0
+  field_blog_article_hero_banner/target_revision_id:
+    -
+      plugin: migration
+      migration: wp_hero_banner
+      no_stub: true
+      source: ID
+    -
+      plugin: extract
+      index:
+        - 1
+  created: 
+    plugin: callback
+    source: post_date
+    callable: strtotime
+  changed: 
+    plugin: callback
+    source: post_modified
+    callable: strtotime
+destination:
+  plugin: 'entity:node'
+migration_dependencies:
+  required:
+    - wp_authors
+    - wp_hero_banner

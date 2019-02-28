@@ -1,0 +1,21 @@
+id: wp_hero_banner
+label: 'Hero Banner'
+status: true
+migration_group: wp_migration
+migration_tags:
+  - Wordpress
+source:
+  plugin: wordpress_hero_banner
+  table_prefix: iv
+process:
+  'field_hb_h1_text/value': new_title
+  field_hb_hero_image:
+    plugin: migration_lookup
+    migration: wp_hero_image
+    source: ID
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: hero_banner
+migration_dependencies:
+  required:
+    - wp_hero_image

@@ -1,0 +1,10 @@
+name: Wordpress Migration
+type: module
+description: Custom migration from Wordpress Blog content into Drupal 8.
+core: 8.x
+dependencies:
+  - migrate
+  - migrate_plus
+  - migrate_tools
+  - migrate_drupal
+  - migrate_file

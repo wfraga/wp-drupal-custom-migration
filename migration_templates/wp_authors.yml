@@ -1,0 +1,34 @@
+id: wp_authors
+label: Migrate Authors from Wordpress blog
+status: true
+migration_group: wp_migration
+migration_tags:
+  - Wordpress
+source:
+  plugin: wordpress_authors
+  table_prefix: iv
+  constants:
+    file_destination: 'public://author_blog_pictures/'
+process:
+  type:
+    plugin: default_value
+    default_value: blog_author
+  title: user_full_name
+  'field_bau_bio/format':
+    plugin: default_value
+    default_value: content_admin_text_editor
+  'field_bau_bio/value': user_description
+  'field_bau_author_position/value': user_position
+  'field_bau_facebook/uri': user_facebook
+  'field_bau_twitter/uri': user_twitter
+  'field_bau_instagram/uri': user_instagram
+  'field_bau_linkedin/uri': user_linkedin
+  field_bau_image:
+    plugin: migration_lookup
+    migration: wp_author_picture
+    source: ID
+destination:
+  plugin: 'entity:node'
+migration_dependencies:
+  required:
+    - wp_author_picture
